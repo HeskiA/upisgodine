@@ -1,4 +1,4 @@
-<div>
+<div wire:poll>
     @if($flags['odabirModulaZakljucan'])
         <x-success-button wire:click="otkModul">{{ __('Otključaj odabir modula') }}</x-success-button>
     @else

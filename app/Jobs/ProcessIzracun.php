@@ -1,52 +1,36 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Jobs;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
 use App\Models\Flag;
-use App\Models\Odabir;
 use App\Models\User;
-use App\Models\Modul;
-use App\Models\Predmet;
-use App\Jobs\ProcessIzracun;
-use Error;
-use Livewire\Component;
 
-class ZakljucajIzracunajUpis extends Component
+class ProcessIzracun implements ShouldQueue
 {
-    public $flags;
-    public function render()
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct()
     {
-        $this->flags = Flag::get()->first();
-        return view('livewire.zakljucaj-izracunaj-upis');
+        //
     }
 
-    public function otkModul()
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
     {
-        Flag::get()->first()->update(['odabirModulaZakljucan' => false]);
-        $this->emit('flagsRefresh');
-    }
-
-    public function zakModul()
-    {
-        Flag::get()->first()->update(['odabirModulaZakljucan' => true]);
-        $this->emit('flagsRefresh');
-    }
-
-    public function otkPredmet()
-    {
-        Flag::get()->first()->update(['odabirPredmetaZakljucan' => false]);
-        $this->emit('flagsRefresh');
-    }
-
-    public function zakPredmet()
-    {
+        error_log('test');
         Flag::get()->first()->update(['odabirPredmetaZakljucan' => true]);
-        $this->emit('flagsRefresh');
-    }
-
-    public function izracunaj()
-    {
-        ProcessIzracun::dispatch();
-/*         Flag::get()->first()->update(['odabirPredmetaZakljucan' => true]);
         Flag::get()->first()->update(['odabirModulaZakljucan' => true]);
         $studenti = User::get();
         foreach ($studenti as $student)
@@ -108,19 +92,7 @@ class ZakljucajIzracunajUpis extends Component
             }
         }
         Flag::get()->first()->update(['rezultatiDostupni' => true]);
-        $this->emit('flagsRefresh');
+/*         $this->emit('flagsRefresh');
         $this->emit('rezultatiRefresh'); */
-    }
-
-    public function resetiraj()
-    {
-        //Odabir::query()->update(['primljen' => false]);
-        Odabir::query()->delete();
-        Modul::query()->update(['popunjeno' => 0]);
-        Predmet::query()->update(['popunjeno' => 0]);
-        Flag::query()->update(['odabirModulaZakljucan' => false, 'odabirPredmetaZakljucan' => false,
-        'rezultatiDostupni' => false]);
-        $this->emit('flagsRefresh');
-        $this->emit('rezultatiRefresh');
     }
 }
