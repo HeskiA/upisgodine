@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        Upis Godine
                     </a>
                 </div>
 
@@ -85,9 +85,21 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            @if(!$isAdmin)
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Odabir') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('ranglista')" :active="request()->routeIs('ranglista')">
+                {{ __('Status i rezultati') }}
+            </x-responsive-nav-link>
+            @else
+            <x-responsive-nav-link :href="route('admin-panel')" :active="request()->routeIs('admin-panel')">
+                {{ __('Admin panel') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin-predmeti-moduli')" :active="request()->routeIs('admin-predmeti-moduli')">
+                {{ __('Predmeti i moduli') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -99,7 +111,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('Profil') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
@@ -109,7 +121,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Odjava') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
