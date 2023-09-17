@@ -65,7 +65,7 @@ class ZakljucajIzracunajUpis extends Component
 
     public function preuzmi()
     {
-        $fileName = 'users.csv';
+        $fileName = 'rezultatiupisa.csv';
         $users = User::all();
 
         $headers = array(
@@ -76,7 +76,7 @@ class ZakljucajIzracunajUpis extends Component
             "Expires"             => "0"
         );
 
-        $columns = array('id', 'user_id', 'email', 'predmet_id', 'predmet_naziv', 'modul_id', 'modul_naziv');
+        $columns = array('id', 'user_id', 'email', 'predmet_id', 'predmet_naziv', 'modul_id', 'modul_naziv', 'bodovi');
 
         $callback = function() use($users, $columns) {
             $file = fopen('php://output', 'w');
@@ -84,7 +84,7 @@ class ZakljucajIzracunajUpis extends Component
 
             foreach ($users as $user) {
                 $odabirs = $user->odabirs()->get();
-                error_log($odabirs);
+                //error_log($odabirs);
                 foreach ($odabirs as $odabir)
                 {
                     if($odabir->primljen)
@@ -103,9 +103,11 @@ class ZakljucajIzracunajUpis extends Component
                         $modul = Modul::where('id', $odabir->modul_id)->get()->first();
                         if($modul){$row['modul_naziv'] = $modul->naziv;}
                         else{$row['modul_naziv'] = '';}
+
+                        $row['bodovi'] = $user->bodovi;
                         
                         fputcsv($file, array($row['id'], $row['user_id'], $row['email'], $row['predmet_id'],
-                        $row['predmet_naziv'], $row['modul_id'], $row['modul_naziv']));
+                        $row['predmet_naziv'], $row['modul_id'], $row['modul_naziv'], $row['bodovi']));
                     }
                 }
           }

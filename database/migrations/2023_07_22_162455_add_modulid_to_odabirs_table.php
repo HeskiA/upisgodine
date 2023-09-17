@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Predmet;
 use App\Models\Modul;
 
+
 return new class extends Migration
 {
     /**
@@ -16,7 +17,7 @@ return new class extends Migration
         Schema::table('odabirs', function (Blueprint $table) {
             //
             $table->foreignIdFor(Predmet::class)->nullable()->change();
-            $table->foreignIdFor(Modul::class)->nullable();
+            $table->foreignIdFor(Modul::class)->nullable()->change();
         });
     }
 

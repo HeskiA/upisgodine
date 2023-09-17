@@ -29,7 +29,6 @@ class ProcessIzracun implements ShouldQueue
      */
     public function handle(): void
     {
-        error_log('test');
         Flag::get()->first()->update(['odabirPredmetaZakljucan' => true]);
         Flag::get()->first()->update(['odabirModulaZakljucan' => true]);
         $studenti = User::get();
@@ -56,7 +55,7 @@ class ProcessIzracun implements ShouldQueue
                 ($student->ects / 120) * ($student->prosjek / 5) * 100;
             $student->save();
         }
-        $studenti = User::orderBy('bodovi', 'desc')->get();  // DODATI DA ZANEMARI ADMIN KORISNIKE
+        $studenti = User::where('userType', 'user')->orderBy('bodovi', 'desc')->get();
 
         foreach ($studenti as $student)
         {
