@@ -130,4 +130,17 @@ class PredmetsTable extends Component
             return true;
         }
     }
+
+    public function getModul($predmet)
+    {
+        $modul = $predmet->modul()->first();
+        if($modul)
+        {
+            return $modul->naziv;
+        }
+        else
+        {
+            return "";
+        }
+    }
 }

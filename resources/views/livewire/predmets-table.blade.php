@@ -10,6 +10,7 @@
                     <tr>
                         <th class="border px-4 py-2">ID</th>
                         <th class="border px-4 py-2">Naziv</th>
+                        <th class="border px-4 py-2">Modul</th>
                         <th class="border px-4 py-2">Kapacitet</th>
                         <th class="border px-4 py-2">Popunjeno</th>
                         <th class="border px-4 py-2">Stvoren</th>
@@ -22,6 +23,10 @@
                         <tr>
                             <td class="border px-4 py-2 text-center">{{ $predmet->id }}</td>
                             <td class="border px-4 py-2 text-center">{{ $predmet->naziv }}</td>
+                            @php
+                                $modul = App\Http\Livewire\PredmetsTable::getModul($predmet); 
+                            @endphp
+                            <td class="border px-4 py-2 text-center">{{ $modul }}</td>
                             <td class="border px-4 py-2 text-center">{{ $predmet->kapacitet }}</td>
                             <td class="border px-4 py-2 text-center">{{ $predmet->popunjeno }}</td>
                             <td class="border px-4 py-2 text-center">{{ $predmet->created_at }}</td>

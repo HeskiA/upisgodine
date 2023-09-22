@@ -26,6 +26,11 @@ class Odabir extends Model
         return $this->belongsTo(Predmet::class);
     }
 
+    public function semestar()
+    {
+        return Predmet::where('id', $this->predmet_id)->first()->semestar;
+    }
+
     protected $fillable = [
         'predmet_id',
         'modul_id',

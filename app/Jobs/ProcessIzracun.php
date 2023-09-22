@@ -59,6 +59,7 @@ class ProcessIzracun implements ShouldQueue
 
         foreach ($studenti as $student)
         {
+            $upisaniModul = NULL;
             $odabiri = $student->odabirs()->where('predmet_id', NULL)
                 ->orderBy('prioritet', 'asc')->get();  //znaci da je odabir modula a ne predmeta 
             foreach ($odabiri as $odabir)
@@ -70,28 +71,40 @@ class ProcessIzracun implements ShouldQueue
                     $odabir->save();
                     $modul->popunjeno++;
                     $modul->save();
+                    $upisaniModul = $modul;
                     break;
                 }
             }
             $odabiri = $student->odabirs()->where('modul_id', NULL)
             ->orderBy('prioritet', 'asc')->get();  //znaci da je odabir predmeta a ne modula 
-            $upisano = 0; // broj upisanih predmeta
+            $upisanoZimskih = 0; // broj upisanih predmeta
+            $upisanoLjetnih = 0; // broj upisanih predmeta
             foreach ($odabiri as $odabir)
             {
                 $predmet = $odabir->predmet()->get()->first();
-                if($predmet->popunjeno < $predmet->kapacitet)
+                if($predmet->popunjeno < $predmet->kapacitet && $predmet->modul() != $upisaniModul)
                 {
-                    $odabir->primljen = true;
-                    $odabir->save();
-                    $predmet->popunjeno++;
-                    $predmet->save();
-                    $upisano++;
-                    if($upisano >= 5)break;
+                    if($predmet->semestar == 'zimski' && $upisanoZimskih < 3)
+                    {
+                        $odabir->primljen = true;
+                        $odabir->save();
+                        $predmet->popunjeno++;
+                        $predmet->save();
+                        $upisanoZimskih++;
+                    }
+                    elseif($upisanoLjetnih < 2)
+                    {
+                        $odabir->primljen = true;
+                        $odabir->save();
+                        $predmet->popunjeno++;
+                        $predmet->save();
+                        $upisanoLjetnih++;
+                    }
+
+                    if($upisanoZimskih == 3 && $upisanoLjetnih == 2)break;
                 }
             }
         }
         Flag::get()->first()->update(['rezultatiDostupni' => true]);
-/*         $this->emit('flagsRefresh');
-        $this->emit('rezultatiRefresh'); */
     }
 }

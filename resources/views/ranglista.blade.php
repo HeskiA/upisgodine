@@ -21,6 +21,13 @@
                 </div>
             </div> <br>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="px-6 py-1 text-gray-900">
+                    <br>
+                    @include('profile.partials.student-info') <br>
+                </div>
+            </div> <br>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-black-900">
                     <strong>{{ __("Rezultati upisa") }}</strong>
                 </div>

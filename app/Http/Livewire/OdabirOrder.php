@@ -14,6 +14,7 @@ class OdabirOrder extends Component
     public $selectedClasses = [];
     public $enrolledClasses = [];
     public $flags;
+    public $semestar;
 
     public function enroll($items)
     {
@@ -27,12 +28,16 @@ class OdabirOrder extends Component
 
     public function render()
     {
-        $classes = Predmet::get();
-        $enrolledClasses = Odabir::where('user_id', Auth::id())
+        $classes = Predmet::where('semestar', $this->semestar)->get();
+        $allEnrolledClasses = Odabir::where('user_id', Auth::id())
         ->where('modul_id', NULL)->orderBy('prioritet', 'asc')->get();
+
+        $enrolledClasses = $this->filterBySemestar($allEnrolledClasses);
+
+
         $this->flags = Flag::get()->first();
 
-        if($enrolledClasses->count() === 0)
+        if(count($enrolledClasses) === 0)
         {
             for ($i = 0; $i < $classes->count(); $i++)
             {
@@ -43,12 +48,27 @@ class OdabirOrder extends Component
                 ]);
             }
             $enrolledClasses = Odabir::where('user_id', Auth::id())->where('modul_id', NULL)->get();
+            $enrolledClasses = $this->filterBySemestar($enrolledClasses);
         }
+
         return view('livewire.odabir-order', ['classes' => $enrolledClasses, 'classesCount' => $classes->count()]);
     }
 
     public function getClassName($predmet_id) : string 
     {
         return Predmet::where('id', $predmet_id)->get()->first()->naziv;
+    }
+
+    public function filterBySemestar($allEnrolledClasses)
+    {
+        $enrolledClasses = [];
+        foreach($allEnrolledClasses as $class)
+        {
+            if($class->semestar() == $this->semestar)
+            {
+                array_push($enrolledClasses, $class);
+            }
+        }
+        return $enrolledClasses;
     }
 }

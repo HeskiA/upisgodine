@@ -21,8 +21,6 @@ class ModulOdabirOrder extends Component
         foreach ($items as $item) {
             Odabir::where('user_id', Auth::id())->where('id', $item['value'])->update(['prioritet' => $item['order']]);
         }
-        
-        session()->flash('message', 'Classes enrolled successfully!');
     }
 
 

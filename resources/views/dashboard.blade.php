@@ -27,9 +27,23 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <strong>{{ __("Odabir predmeta") }}</strong>
+                    <strong>{{ __("Odabir predmeta za zimski semestar") }}</strong>
                     <div>
-                        <livewire:odabir-order />
+                        <livewire:odabir-order :semestar="'zimski'"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <strong>{{ __("Odabir predmeta za ljetni semestar") }}</strong>
+                    <div>
+                        <livewire:odabir-order :semestar="'ljetni'"/>
                     </div>
                 </div>
             </div>

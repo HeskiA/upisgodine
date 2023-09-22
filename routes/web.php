@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PredmetController;
-use App\Http\Livewire\ClassEnrollment;
 use Illuminate\Support\Facades\Route;
 
 /*

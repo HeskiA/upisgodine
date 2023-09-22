@@ -48,7 +48,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <div class="text-sm leading-5 text-white-900">{{ $this->getUpisaniModulName() }}</div>
-                                    <select type="number" wire:model="updateModul" style="width:150px;" class="mb-3">
+                                    <select type="number" wire:model="updateModul" style="width:100%;" class="mb-3">
                                         <option value="{{ $this->getUpisaniModulId() }}" selected hidden>{{ $this->getUpisaniModulName()  }}</option>
                                         @foreach ($moduli as $modul)
                                                 <option value={{ $modul['id'] }}>{{ $modul['naziv'] }}</option>
@@ -71,7 +71,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap">
                                         <div class="text-sm leading-5 text-white-900">{{ $stavka->predmet()->get()->first()['naziv'] }}</div>
-                                        <select type="number" wire:model="updateOdabirs.{{ $stavka->id }}" style="width:150px;" class="mb-3">
+                                        <select type="number" wire:model="updateOdabirs.{{ $stavka->id }}" style="width:100%;" class="mb-3">
                                             <option value="{{ $stavka->predmet()->get()->first()['id'] }}" selected hidden>{{ $stavka->predmet()->get()->first()['naziv'] }}</option>
                                             @foreach ($predmeti as $predmet)
                                                     <option value={{ $predmet['id'] }}>{{ $predmet['naziv'] }}</option>

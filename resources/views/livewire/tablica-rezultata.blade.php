@@ -8,7 +8,7 @@
                             <td class="px-6 py-4 whitespace-no-wrap">
                                 <div class="flex items-center">
                                     <div class="text-sm leading-5 font-medium text-gray-900">
-                                        <div>{{ 'Upisani modul' }}</div>
+                                        <div>{{ 'Upisan modul' }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -28,12 +28,19 @@
                             <td class="px-6 py-4 whitespace-no-wrap">
                                 <div class="flex items-center">
                                     <div class="text-sm leading-5 font-medium text-gray-900">
-                                        <div>{{ 'Upisani predmet' }}</div>
+                                        <div>{{ 'Upisan predmet' }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap">
                                 <div class="text-sm leading-5 text-white-900">{{ $stavka->predmet()->get()->first()['naziv'] }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap">
+                                @if($stavka->semestar() == 'zimski')
+                                    <div class="text-sm leading-5 text-white-900">Zimski semestar</div>
+                                @else
+                                    <div class="text-sm leading-5 text-white-900">Ljetni semestar</div>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
