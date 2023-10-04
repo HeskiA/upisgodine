@@ -32,6 +32,9 @@
                         <x-nav-link :href="route('admin-predmeti-moduli')" :active="request()->routeIs('admin-predmeti-moduli')">
                             {{ __('Predmeti i moduli') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin-ranglista')" :active="request()->routeIs('admin-ranglista')">
+                            {{ __('Rang lista') }}
+                        </x-nav-link>
                     </div>
                 @endif
             </div>

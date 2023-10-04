@@ -44,6 +44,10 @@ Route::get('/admin-panel', function () {
     return view('admin-panel');
 })->middleware(['auth', 'verified', 'admin-only'])->name('admin-panel');
 
+Route::get('/admin-ranglista', function () {
+    return view('admin-ranglista');
+})->middleware(['auth', 'verified', 'admin-only'])->name('admin-ranglista');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -20,9 +20,19 @@ class AdminTable extends Component
     public $upisaniModul;
     public $predmeti;
     public $moduli;
+    public $editData = null;
 
     public $updateOdabirs = [];
     public $updateModul;
+
+    public $rules = [
+        'editData.ects' => 'required',
+        'editData.godstud' => 'required',
+        'editData.ects_pgod' => 'required',
+        'editData.prosjek' => 'required',
+        'editData.prosjek_pgod' => 'required',
+    ];
+
     public function render()
     {
         $students = User::orderBy('name', 'asc')->paginate(4);
@@ -40,6 +50,16 @@ class AdminTable extends Component
             ->where('modul_id', null)->where('primljen', true)->orderBy('prioritet', 'asc')->get();
     }
 
+    public function openEditDataModal($student)
+    {
+        $this->editData = User::where('id', $student['id'])->get()->first();
+    }
+
+    public function closeEditDataModal()
+    {
+        $this->editData = null;
+    }
+
     public function updateStudent()
     {
         Odabir::where('id', $this->upisaniModul->id)->update(['modul_id' => $this->updateModul]);
@@ -48,6 +68,12 @@ class AdminTable extends Component
             Odabir::where('id', $id)->update(['predmet_id' => $el]);
         }
         $this->selectedStudent = null;
+    }
+
+    public function updateStudentData() : void
+    {
+        $this->editData->save();
+        $this->editData = null;
     }
 
     public function zatvoriModal()

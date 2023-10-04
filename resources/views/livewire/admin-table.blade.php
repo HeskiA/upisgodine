@@ -15,7 +15,10 @@
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                         <x-primary-button wire:click="otvoriModal( {{ $student}} )">
-                            IZMJENA
+                            UPISANI PREDMETI
+                        </x-primary-button>
+                        <x-primary-button wire:click="openEditDataModal( {{ $student}} )">
+                            PODACI
                         </x-primary-button>
                         <x-danger-button wire:click="otvoriModal( {{ $student}} )">
                             BRISANJE
@@ -31,10 +34,10 @@
     </div>
 
     @if ($selectedStudent)
-        <div class="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black">
-            <div @click.away="zatvoriModal" class="bg-white p-6 rounded-lg w-1/2">
-                <h3 class="text-lg font-medium mb-4">Uređivanje odabira</h3>
-                @if($upisaniModul)
+        <div wire:click="zatvoriModal" class="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black">
+            <div x-on:click.stop="" class="bg-white p-6 rounded-lg w-1/2">
+                <h3 class="text-lg font-medium mb-4">Uređivanje upisanih predmeta za studenta {{ $selectedStudent['name']}}</h3>
+                @if($upisaniModul || $listaUpisanihPredmeta->count() > 0)
                 <form wire:submit.prevent="updateStudent">
                     <table class="min-w-full">
                         <tbody class="">
@@ -92,7 +95,7 @@
                     </div>
                 </form>
             @else
-                <h1>Nema odabira</h1>
+                <h1>Nema upisanih predmeta.</h1>
                 <div class="text-right">
                     <button type="button" wire:click="zatvoriModal" class="mr-2 px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         Odustani
@@ -102,4 +105,29 @@
             </div>
         </div>
     @endif
+
+    @if ($editData)
+    <div wire:click="closeEditDataModal" class="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black">
+        <div x-on:click.stop="" class="bg-white p-6 rounded-lg w-1/2">
+            <h3 class="text-lg font-medium mb-4">Uređivanje podataka o studentu {{ $editData->name }} </h3>
+            <form wire:submit.prevent="updateStudentData">
+                <div>
+                    ECTS: <input type="number" id="ects" wire:model="editData.ects" placeholder="ECTS" class="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"><br>
+                    Prosjek: <input type="number" step="any" id="prosjek" wire:model="editData.prosjek" placeholder="ECTS prošle godine" class="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"><br>
+                    Godine studiranja: <input type="number" id="godstud" wire:model="editData.godstud" placeholder="Godine studiranja" class="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"><br>
+                    ECTS prošle godine: <input type="number" id="ects_pgod" wire:model="editData.ects_pgod" placeholder="ECTS prošle godine" class="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"><br>
+                    Prosjek prošle godine: <input type="number" step="any" id="prosjek_pgod" wire:model="editData.prosjek_pgod" placeholder="ECTS prošle godine" class="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"><br>
+                </div>
+                <div class="text-right">
+                    <button type="button" wire:click="closeEditDataModal" class="mr-2 px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Odustani
+                    </button>
+                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Spremi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+@endif
 </div>
